@@ -12,6 +12,13 @@ func GetCSVAdapter() *csvAdapter {
 }
 
 func (a *csvAdapter) Write(filename string, data [][]string) error {
+	if _, err := os.Stat("./data"); os.IsNotExist(err) {
+		err := os.Mkdir("./data", os.ModeDir)
+		if err != nil {
+			return err
+		}
+	}
+
 	file, err := os.Create(filename)
 	defer file.Close()
 	if err != nil {
